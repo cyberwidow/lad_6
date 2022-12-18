@@ -1,0 +1,500 @@
+package com.company;
+
+import javax.annotation.processing.SupportedSourceVersion;
+import java.util.*;
+
+import static java.lang.Math.*;
+
+class Oblast {
+
+    public static boolean oblast (double x, double y) {
+        boolean flag = false;
+        if (circle_tru(1, x, y, 3, 3, 1)
+                || circle_tru(1, x, y, -2, 1, 1)
+                || circle_tru(1, x, y, -2, 3, 1)) {
+            flag = true;
+        } else if ((circle_tru(1, x, y, 0, 0, 6) && y >= 0 && tru_line_y(1, x, y, -5, 0, -3, 5))
+                || (circle_tru(1, x, y, 0, 0, 6) && y >= 5)
+                || (circle_tru(1, x, y, 0, 0, 6) && y >= 0 && circle_tru(-1, x, y, 3, 2, 2) && tru_line_y(1, x, y, 1, 0, 0, 4))) {
+            flag = true;
+        } else {
+            flag = false;
+        }
+        return flag;
+    }
+    public static boolean tru_line_y(double up_doun, double x, double y, double x1, double y1, double x2, double y2) {
+        // up_doun =  1 если область выше прямой
+        //         = -1 если область ниже прямой
+        boolean out;
+        if (abs(up_doun) == up_doun) {
+            if (y >= y1 + (x - x1) * (y2 - y1) / (x2 - x1)) {
+                out = true;
+            } else {
+                out = false;
+            }
+        } else {
+            if (y <= y1 + (x - x1) * (y2 - y1) / (x2 - x1)) {
+                out = true;
+            } else {
+                out = false;
+            }
+        }
+        return out;
+    }
+    public static boolean circle_tru(int in_out, double x, double y, double x1, double y1, double r) {
+        boolean out;
+        if (abs(in_out) == in_out) {
+            if (r >= sqrt(pow(x - x1, 2) + pow(y - y1, 2))) {
+                out = true;
+            } else {
+                out = false;
+            }
+        } else {
+            if (r < sqrt(pow(x - x1, 2) + pow(y - y1, 2))) {
+                out = true;
+            } else {
+                out = false;
+            }
+        }
+        return out;
+    }
+
+}
+
+class Function_My {
+
+    public static double function_my (double x) {
+        double f, a, c, G, L;
+//        f = 1;
+//        G = (exp(2*x)+sin(f))/(log(3.8*x+f));
+        a = 2;
+        c = 3;
+        L = (sqrt(exp(x)-pow(cos(pow(x, 2)*pow(a, 2)),4))+pow(atan(a-pow(x,5)),4)) /
+                (Math.E*sqrt(abs(a+x*pow(c, 4))));
+        return L;
+    }
+}
+
+class Main {    // вариант 13
+
+    public static double num1_1(double x, int n) {
+        int i;
+        double n_chlen, S = 0;
+        i = 1;
+        while (i <= n) {
+            n_chlen = pow(-1, i - 1) * pow(x, 2 * i - 1) / (3 * i - 1);
+            i += 1;
+            S += n_chlen;
+        }
+        return S;
+    }
+
+    public static double num1_2(double x, double m) {
+        int i;
+        double n_chlen, S = 0;
+        i = 1;
+        while (true) {
+            n_chlen = pow(-1, i - 1) * pow(x, 2 * i - 1) / (3 * i - 1);
+            if (!(n_chlen < m)) {
+                break;
+            }
+            i += 1;
+            S += n_chlen;
+            if (i >= 10_000) {
+                return 0;
+            }
+        }
+        return S;
+    }
+
+    public static int num2_1(int x, int k) {
+        boolean flag;
+        int x_n, count = 0, answer = 1;
+
+        while (x > 0) {
+            x_n = x % 10;
+            x /= 10;
+            if (x_n == k) {
+                count += 1;
+            }
+        }
+        return count;
+    }
+
+    public static boolean num2_2(int x, int k) {
+
+        boolean flag = true;
+        int x_n;
+
+        while (x > 0) {
+            x_n = x % 10;
+            x /= 10;
+            if (x_n > k) {
+                flag = false;
+            }
+        }
+        return flag;
+    }
+
+    public static double num3_1(int in) {
+        double S = 0;
+        for (int i = 1; i <= in; i++) {
+            for (int j = 1; j <= i; j++) {
+                S += pow(i - j, 1.0 / 3.0);
+            }
+        }
+        return S;
+    }
+
+    public static double num3_2(int in) {
+        double p = 1;
+        for (int i = 1; i <= in; i++) {
+            for (int j = 1; j <= i; j++) {
+                p *= pow(j, i);
+            }
+        }
+        return p;
+    }
+
+    public static double num3_3(int in) {
+        double S, p = 1;
+        for (int i = 1; i <= in; i++) {
+            S = 0;
+            for (int j = i; j <= 2 * i - 1; j++) {
+                for (int k = i + j; k <= 2 * (i + j); k++) {
+                    S += (3 * i - 2 * (k + 0.2 * j));
+                }
+            }
+            p *= S;
+        }
+        return p;
+    }
+
+    public static String num4_1(int in) {
+        String S = "", s_ed = "1";
+        for (int i = 1; i <= in; i++) {
+            S.concat(s_ed);
+        }
+        return S;
+    }
+
+    public static int num4_2(int x, int k) {
+        String S = "";
+        int x_s;
+        while (x > 0) {
+            x_s = x % k;
+            x /= k;
+            S = S + x_s;
+        }
+        S = reverseString(S);
+        x = Integer.parseInt(S);
+        return x;
+    }
+
+    public static String reverseString(String str) {
+        char[] array = str.toCharArray();
+        String result = "";
+        for (int i = array.length - 1; i >= 0; i--) {
+            result = result + array[i];
+        }
+        return result;
+    }
+
+    public static int num4_3(int x, int k) {
+        int x_s, i = 0, S = 0;
+        while (x > 0) {
+            x_s = x % 10;
+            x /= 10;
+            S += x_s * pow(k, i);
+            i += 1;
+        }
+        return S;
+    }
+
+    public static double num5_1(double x) {
+        double mistake_st = 0.0001, mistake_end = 0.01;
+        double step, difference, difference_st, S = 0, ln = log((1 + x) / (1 - x));
+        difference_st = abs(log((1 + x) / (1 - x)) - 2 * x);
+        int n = 0;
+        boolean flag = false;
+        while (true) {
+            step = pow(x, 2 * n + 1) / (2 * n + 1);
+            S += 2 * step;
+            difference = abs(ln - S);
+            if (flag == false) {
+                if (difference >= mistake_st & difference <= mistake_end) {
+                    flag = true;
+                    System.out.println("Шаг: " + n + " S = " + S + " (E) = " + difference);
+                }
+            } else {
+                if (difference >= mistake_st) {
+                    System.out.println("Шаг: " + n + " S = " + S + " (E) = " + difference);
+                } else {
+                    break;
+                }
+            }
+            if (n > 1000 & flag == false) {
+                System.out.println("Значение не найдено. Не попало в данную погрешность измерения (" + difference_st + " <=> " + difference + ")");
+                break;
+            }
+            n += 1;
+        }
+        return S;
+    }
+
+    public static void num9_1 (double x, int p) {
+        double y = x/(double) p, y_next = 0, Eps;
+        int i = 1, j_some = -2, j_last = -6;
+        boolean flag = false;
+        while (j_some >= -6) {
+            y_next = ((p - 1) * y + x / pow(y, p - 1)) / (double) p;
+            Eps = abs(y - y_next);
+            for (int j = j_some; j >= -6; j -= 1) {
+                if (Eps < pow(10, j)) {
+                    j_some = j;
+                    flag = true;
+                }
+                if (j == -6 && flag == true) {
+                    System.out.println("На " + i + " итерации (E) = " + Eps + " < 10^" + j_some);
+                    j_some -= 1;
+                }
+            }
+            y = y_next;
+            flag = false;
+            i += 1;
+        }
+        System.out.println(p + "√" + x + " = " + y_next);
+    }
+
+    public static void num10_1(double true_decision, double x1, double x2) {
+        double S = 0, s_x, x, y_1, y_2;
+        for (int n = 10; n <= 10_000; n *= 10) {
+            y_1 = func(1);
+            for (int i = 1; i <= n; i++) {
+                y_2 = func(x1 + (double) i/ (double) n);
+                S += (y_2 + y_1) / 2 * (x2 - x1) / n;
+                y_1 = y_2;
+            }
+            System.out.println("при n = " + n + ", (Е) = " + abs(true_decision - S) + "  \t" + S);
+            S = 0;
+        }
+    }
+
+    public static double func(double x) {
+        return 5 * x*x - 3 * x + sin(x);
+    }
+
+
+    //
+    //
+    //
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        int i_n, i_k, i_m, i_x, i_i, i_j, i_p;
+        double d_n, d_k, d_m, d_x, d_y, d_p;
+        boolean flag;
+        int num;
+
+        while (true) {
+            System.out.println("___Введите номер задачи от 1 до 10___");
+            num = in.nextInt();
+            switch (num) {
+                case 1:
+                    System.out.println("Введите x, n, m: ");
+                    d_x = in.nextDouble();
+                    i_n = in.nextInt();
+                    d_m = in.nextDouble();
+                    System.out.println("Сумма первых n чисел = " + num1_1(d_x, i_n));
+                    System.out.println("Сумма первых n чисел, которые меньше m = " + num1_2(d_x, d_m));
+                    break;
+                case 2:
+                    System.out.println("Введите натуральное число и k: ");
+                    i_x = in.nextInt();
+                    i_k = in.nextInt();
+                    System.out.println("k встречается в числе " + num2_1(i_x, i_k) + " раз");
+                    System.out.println("k " + (num2_2(i_x, i_k) ? "Является" : "НЕ является") + " максимальной цифрой в числе");
+                    break;
+                case 3:
+                    System.out.println("Введите i (в задаче i = 8 или 5): ");
+                    i_i = in.nextInt();
+                    System.out.println("Ответ 1) = " + num3_1(i_i));
+                    System.out.println("Ответ 2) = " + num3_2(i_i));
+                    System.out.println("Ответ 3) = " + num3_3(i_i));
+                    break;
+                case 4:
+                    System.out.println("Введите x и основани СС в которую нужно перевести: ");
+                    i_x = in.nextInt();
+                    i_k = in.nextInt();
+                    if (i_k == 0) {
+                        System.out.println("Неверная СС!");
+                    } else if (i_k == 1) {
+                        System.out.println(num4_1(i_x));
+                    } else if (i_k >= 1 && i_k <= 10) {
+                        i_x = num4_2(i_x, i_k);
+                        System.out.println("Ответ - " + i_x);
+                    }
+                    System.out.println("Проверка - " + num4_3(i_x, i_k));
+                    break;
+                case 5:
+                    System.out.println("Введите неизвестную (-1 < x < 1): ");
+                    d_x = in.nextDouble();
+                    if (abs(d_x) >= 1) {
+                        System.out.println("error");
+                        break;
+                    }
+                    num5_1(d_x);
+                    break;
+                case 6:
+                    i_i = 1;
+                    while (i_i == 1) {
+                        System.out.println("Введите X и Y: ");
+                        d_x = in.nextDouble();
+                        d_y = in.nextDouble();
+                        if (Oblast.oblast(d_x, d_y)) {
+                            System.out.println("Точка попала в область");
+                        } else {
+                            System.out.println("Точка НЕ попала в область");
+                        }
+                        System.out.println("Продолжить проверять попадания? 1 - да, 0 - нет");
+                        i_i = in.nextInt();
+                    }
+                    break;
+                case 7:
+                    for (int i = 1; i < 10; i++) {
+                        System.out.println();
+                        for (int j = 1; j < 10; j++) {
+                            System.out.print(i + " - " + j + " = " + ( (i - j) >= 0 ? " " + (i - j) : (i - j) ) + "\t");
+                        }
+                    }
+                    System.out.println();
+                    break;
+                case 8:
+                    System.out.println("Введите начальное значение и шаг: ");
+                    d_m = in.nextDouble();
+                    d_n = in.nextDouble();
+                    d_x = 0;
+                    for (i_i = 1; i_i <= 10; i_i++) {
+                        d_x += Function_My.function_my(d_m);
+                        d_m += d_n;
+                    }
+                    System.out.println("Сумма 10 значений = " + d_x);
+                    break;
+                case 9:
+                    System.out.println("Введите число и степень корня (целое число): ");
+                    d_x = in.nextDouble();
+                    i_p = in.nextInt();
+                    num9_1(d_x, i_p);
+                    break;
+                case 10:
+                    double true_decision = 43.0/6.0 - cos(2) + cos(1);
+                    double x1 = 1, x2 = 2;
+                    num10_1(true_decision, x1, x2);
+                    break;
+            }
+            System.out.println();
+        }
+
+        /*
+        if (false) {
+            System.out.println("Введите x, n, m: ");
+            d_x = in.nextDouble();
+            i_n = in.nextInt();
+            d_m = in.nextDouble();
+            System.out.println("Сумма первых n чисел = " + num1_1(d_x, i_n));
+            System.out.println("Сумма первых n чисел, которые меньше m = " + num1_2(d_x, d_m));
+        }
+
+        if (false) {
+            System.out.println("Введите натуральное число и k: ");
+            i_x = in.nextInt();
+            i_k = in.nextInt();
+            System.out.println("k встречается в числе " + num2_1(i_x, i_k) + " раз");
+            System.out.println("k " + (num2_2(i_x, i_k) ? "Является" : "НЕ является") + " максимальной цифрой в числе");
+        }
+
+        if (false) {
+            System.out.println("Введите i (в задаче i = 8): ");
+            i_i = in.nextInt();
+            System.out.println("Ответ 1) = " + num3_1(i_i));
+            System.out.println("Ответ 2) = " + num3_2(i_i));
+            System.out.println("Ответ 3) = " + num3_3(i_i));
+        }
+
+        if (false) {
+            System.out.println("Введите x и основани СС в которую нужно перевести: ");
+            i_x = in.nextInt();
+            i_k = in.nextInt();
+            if (i_k == 0) {
+                System.out.println("Неверная СС!");
+            } else if (i_k == 1) {
+                System.out.println(num4_1(i_x));
+            } else if (i_k >= 1 && i_k <= 10) {
+                i_x = num4_2(i_x, i_k);
+                System.out.println("Ответ - " + i_x);
+            }
+            System.out.println("Проверка - " + num4_3(i_x, i_k));
+        }
+
+
+        if (false) {
+            System.out.println("Введите неизвестную: ");
+            d_x = in.nextDouble();
+            num5_1(d_x);
+        }
+
+        if (false) {
+            Oblast cs = new Oblast();
+            i_i = 1;
+            while (i_i == 1) {
+                System.out.println("Введите X и Y: ");
+                d_x = in.nextDouble();
+                d_y = in.nextDouble();
+                if (cs.oblast(d_x, d_y)) {
+                    System.out.println("Точка попала в область");
+                } else {
+                    System.out.println("Точка НЕ попала в область");
+                }
+                System.out.println("Продолжить проверять попадания? 1 - да, 0 - нет");
+                i_i = in.nextInt();
+            }
+        }
+        if (false) {
+            for (int i = 1; i < 10; i++) {
+                System.out.println();
+                for (int j = 1; j < 10; j++) {
+                    System.out.print(i + " - " + j + " = " + ( (i - j) >= 0 ? " " + (i - j) : (i - j) ) + "\t");
+                }
+            }
+        }
+
+        if (false) {
+            Function_My cs = new Function_My();
+            System.out.println("Введите начальное значение и шаг: ");
+            d_m = in.nextDouble();
+            d_n = in.nextDouble();
+            d_x = 0;
+            for (i_i = 1; i_i <= 10; i_i++) {
+                d_x += Function_My.function_my(d_m);
+                d_m += d_n;
+            }
+            System.out.println("Сумма 10 значений = " + d_x);
+        }
+
+        if (false) {
+            System.out.println("Введите начальное число и степень корня (целое число): ");
+            d_x = in.nextDouble();
+            i_p = in.nextInt();
+            num9_1(d_x, i_p);
+        }
+
+        if (false) {
+            System.out.println("Введите начальное число и степень корня (целое число): ");
+            double true_decision = 43.0/6.0 - cos(2) + cos(1);
+            double x1 = 1, x2 = 2;
+            num10_1(true_decision, x1, x2);
+        }
+        */
+    }
+}
